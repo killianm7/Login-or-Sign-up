@@ -11,15 +11,15 @@ void EmailAdd();
 int main()
 {
 	cout << "----- Please Enter Your Credentials -----\n" << endl;
-	EmailC();
+	EmailC(); //call main function
 	return 0;
 }
 
-bool operator == (string name, string username)
+bool operator == (string name, string username) // operator overloading to compare emails and passwords
 {
-	if (name.length() - 1 == username.length() || name.length() == username.length())
+	if (name.length() - 1 == username.length() || name.length() == username.length()) // same length
 	{
-		for (int i = 0; i < name.length() - 1; i++)
+		for (int i = 0; i < name.length() - 1; i++) 
 		{
 			if (name[i] != username[i])
 			{
@@ -41,10 +41,10 @@ void EmailC()
 	int atc = 0, matchE = 0, matchP = 0, lineT = 0, lineN;
 	bool valid = true;
 
-	cout << "Username / Email: ";
+	cout << "Email / Username: ";
 	cin >> username;
 
-	for (int i = 0; i < username.length(); i++)
+	for (int i = 0; i < username.length(); i++) // check for 1 '@' 
 	{
 		if (username[i] == '@')
 		{
@@ -53,15 +53,15 @@ void EmailC()
 	}
 	if (atc > 1)
 	{
-		cout << "Email / Username is not valid\n" << endl;
+		cout << "Email / Username is not valid\n" << endl; // error message
 		cout << endl;
 		cout << "Try again: " << endl;
-		EmailC();
+		EmailC(); // recursive call
 	}
 
 	fstream dataB;
 	dataB.open("ValidNames.txt");
-	if (!dataB.is_open())
+	if (!dataB.is_open()) // cheack if files are in directory
 	{
 		cout << "1-File could not be opened...\n" << endl;
 	}
@@ -73,7 +73,7 @@ void EmailC()
 		cout << "2-File could not be opened...\n" << endl;
 	}
 	
-	while (getline(dataB, name))
+	while (getline(dataB, name))  // find a matching email/password in the files
 	{
 		lineT++;
 		if (name == username)
@@ -87,17 +87,17 @@ void EmailC()
 	{
 		cout << "\n---------------------------------------\nEmail / Username is not in the database\n---------------------------------------\n" << endl;
 
-		cout << " + Would you like to sign up? + \n\nYes or No [Y/N]: ";
+		cout << " + Would you like to sign up? + \n\nYes or No [Y/N]: "; // prompt user to sign up
 		cin >> ans;
 
 		if (ans == 'y' || ans == 'Y')
 		{
-			EmailAdd();
-			EmailC();
+			EmailAdd(); 
+			EmailC(); // recursive call
 		}
 		else if (ans == 'n' || ans == 'N')
 		{
-			EmailC();
+			EmailC(); // recursive call
 		}
 	}
 	else if (matchE == 1)
@@ -105,7 +105,7 @@ void EmailC()
 		int count = 0;
 		cout << "Password: ";
 		cin >> passU;
-		while (getline(dataP, passD))
+		while (getline(dataP, passD)) // check if passwords match
 		{
 			count++;
 			if (count == lineN)
@@ -144,7 +144,7 @@ void EmailC()
 			cout << "\nJust kidding I cannot show you due to an 'unknown escape sequence: '040'"<< endl;
 		}
 	}
-	dataB.close();
+	dataB.close(); // close files
 	dataP.close();
 }
 
@@ -154,21 +154,21 @@ void EmailAdd()
 	int atcount = 0;
 
 	fstream dataB;
-	dataB.open("ValidNames.txt", ios_base::app);
+	dataB.open("ValidNames.txt", ios_base::app); // open file to add emails to
 	if (!dataB.is_open())
 	{
 		cout << "1-File could not be opened...\n" << endl;
 	}
 
 	fstream dataP;
-	dataP.open("ValidPass.txt", ios_base::app);
+	dataP.open("ValidPass.txt", ios_base::app); // open file to add passwords to
 	if (!dataP.is_open())
 	{
 		cout << "2-File could not be opened...\n" << endl;
 	}
 
 	cout << "\n--------\nSign up!\n--------\n" << endl;
-	cout << "Email: ";
+	cout << "Email / Username: ";
 	cin >> Estr;
 	for (int i = 0; i < Estr.length(); i++)
 	{
@@ -177,7 +177,7 @@ void EmailAdd()
 			atcount += 1;
 		}
 	}
-	if (atcount > 1 || atcount == 0)
+	if (atcount > 1)
 	{
 		cout << "Email / Username is not valid\n" << endl;
 		cout << endl;
@@ -188,7 +188,7 @@ void EmailAdd()
 	{
 		int tNum = 0, num = 0;
 
-		dataB << Estr << endl;
+		dataB << Estr << endl; // write new email to the email text file
 		cout << "Valid.\n\nEnter a new Password: ";
 		cin >> newPt;
 		cout << "\nConfirm new Password: ";
@@ -200,7 +200,7 @@ void EmailAdd()
 		else
 		{
 			cout << "-------------------------" << endl;
-			dataP << newP << endl;
+			dataP << newP << endl; // write new password to the password file
 		}
 	}
 
